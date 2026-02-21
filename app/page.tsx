@@ -162,7 +162,7 @@ export default function Home() {
           </div>
 
                  <div className="bg-[#1e293b] rounded-xl overflow-hidden hover:scale-105 transition">
-            <img src="pixabay.jpeg" alt="Tienda Online" className="w-full" />
+            <img src="pixabay.jpg" alt="Tienda Online" className="w-full" />
             <div className="p-6">
               <h4 className="text-xl font-bold mb-2">buscador de imagenes </h4>
               <p className="text-gray-400 mb-4">
