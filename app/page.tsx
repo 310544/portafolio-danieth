@@ -20,7 +20,7 @@ const projects = [
     desc: "API robusta para e-commerce con autenticación JWT, gestión de productos, carrito de compras e integración de pasarela de pagos.",
     tech: ["Node.js", "TypeScript", "PostgreSQL"],
     gradient: "radial-gradient(ellipse at 20% 60%, #7c3aed55 0%, transparent 55%), radial-gradient(ellipse at 80% 20%, #a855f730 0%, transparent 50%), linear-gradient(135deg, #0f0a2e 0%, #07071a 100%)",
-    icon: "🛒", github: "#", demo: "#",
+    image: "/tienda-ecoshop.jpg", icon: "🛒", github: "#", demo: "#",
   },
   {
     title: "Dashboard Financiero",
@@ -28,7 +28,7 @@ const projects = [
     desc: "Panel de control con gráficas en tiempo real, reportes exportables, autenticación por roles y gestión de usuarios.",
     tech: ["Next.js", "React", "MongoDB"],
     gradient: "radial-gradient(ellipse at 70% 70%, #3178C655 0%, transparent 55%), radial-gradient(ellipse at 20% 20%, #06B6D430 0%, transparent 50%), linear-gradient(135deg, #071420 0%, #07071a 100%)",
-    icon: "📊", github: "#", demo: "#",
+    image: "/pixabay.jpg", icon: "📊", github: "#", demo: "#",
   },
   {
     title: "Sistema de Gestión",
@@ -36,7 +36,7 @@ const projects = [
     desc: "Sistema empresarial completo con roles, permisos granulares, notificaciones en tiempo real y reportes automatizados.",
     tech: ["Node.js", "MySQL", "TypeScript"],
     gradient: "radial-gradient(ellipse at 30% 40%, #ec489955 0%, transparent 55%), radial-gradient(ellipse at 75% 75%, #a855f720 0%, transparent 50%), linear-gradient(135deg, #1a0714 0%, #07071a 100%)",
-    icon: "⚙️", github: "#", demo: "#",
+    image: "/villavicencio.jpeg", icon: "⚙️", github: "#", demo: "#",
   },
   {
     title: "App Tiempo Real",
@@ -44,7 +44,7 @@ const projects = [
     desc: "Aplicación colaborativa con actualizaciones instantáneas, drag & drop interactivo y sincronización entre dispositivos.",
     tech: ["Node.js", "React", "MongoDB"],
     gradient: "radial-gradient(ellipse at 50% 30%, #33993355 0%, transparent 55%), radial-gradient(ellipse at 80% 80%, #06B6D420 0%, transparent 50%), linear-gradient(135deg, #071a07 0%, #07071a 100%)",
-    icon: "⚡", github: "#", demo: "#",
+    image: "/zapatillas.png", icon: "⚡", github: "#", demo: "#",
   },
 ];
 
@@ -148,7 +148,7 @@ export default function Home() {
           z-index: 100;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
           padding: 14px 50px;
           background: rgba(5,5,26,0.88);
           backdrop-filter: blur(20px);
@@ -220,45 +220,51 @@ export default function Home() {
         }
         .nav-links {
           display: flex;
-          gap: 36px;
+          gap: 12px;
           list-style: none;
         }
         .nav-links a {
-          color: rgba(255,255,255,0.5);
+          display: inline-flex;
+          align-items: center;
+          padding: 9px 26px;
+          border-radius: 50px;
+          border: 1px solid rgba(139,92,246,0.35);
+          color: rgba(255,255,255,0.65);
           text-decoration: none;
-          font-size: 0.85rem;
-          font-weight: 500;
+          font-size: 0.82rem;
+          font-weight: 600;
           letter-spacing: 0.3px;
-          transition: color 0.25s;
+          background: rgba(255,255,255,0.03);
+          transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
           position: relative;
-          padding-bottom: 5px;
+          overflow: hidden;
         }
-        .nav-links a::after {
+        .nav-links a::before {
           content: '';
           position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #7c3aed, #a855f7, #ec4899);
-          border-radius: 2px;
-          transition: width 0.35s cubic-bezier(0.22,1,0.36,1);
+          inset: 0;
+          background: linear-gradient(90deg, #7c3aed, #a855f7);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          border-radius: 50px;
         }
+        .nav-links a span { position: relative; z-index: 1; }
         .nav-links a:hover {
           color: #fff;
+          border-color: transparent;
+          box-shadow: 0 0 22px rgba(124,58,237,0.5), 0 4px 16px rgba(124,58,237,0.3);
+          transform: translateY(-2px);
         }
-        .nav-links a:hover::after {
-          width: 100%;
-        }
-        .nav-active {
+        .nav-links a:hover::before { opacity: 1; }
+        .nav-contact a {
+          background: linear-gradient(90deg, #7c3aed, #a855f7) !important;
+          border-color: transparent !important;
           color: #fff !important;
-          border: none !important;
-          padding: 0 !important;
-          padding-bottom: 5px !important;
-          border-radius: 0 !important;
         }
-        .nav-active::after {
-          width: 100% !important;
+        .nav-contact a::before { opacity: 0 !important; }
+        .nav-contact a:hover {
+          box-shadow: 0 0 28px rgba(124,58,237,0.65), 0 4px 20px rgba(124,58,237,0.4) !important;
+          transform: translateY(-2px) scale(1.03) !important;
         }
 
         /* Toggle pills */
@@ -860,7 +866,7 @@ export default function Home() {
         .projects-full-bg { position: absolute; inset: 0; transition: background 0.7s ease; }
         .projects-full-overlay {
           position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(105deg, rgba(5,5,26,0.97) 0%, rgba(5,5,26,0.78) 38%, rgba(5,5,26,0.2) 70%, transparent 100%);
+          background: linear-gradient(105deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 38%, rgba(0,0,0,0.15) 70%, transparent 100%);
         }
         .projects-section-label { position: absolute; top: 50px; left: 60px; z-index: 10; }
         .projects-eyebrow {
@@ -1035,15 +1041,13 @@ export default function Home() {
 
       {/* Navbar */}
       <nav className="navbar">
-        <a href="#home" className="nav-logo-wrap">
-          <div className="nav-logo-badge">DP</div>
-        </a>
         <ul className="nav-links">
-          {["Home", "About", "Service", "Project", "Skill", "Contact"].map((item, i) => (
-            <li key={item}>
-              <a href={`#${item.toLowerCase()}`} className={i === 0 ? "nav-active" : ""}>{item}</a>
-            </li>
-          ))}
+          <li>
+            <a href="#project"><span>Proyectos</span></a>
+          </li>
+          <li className="nav-contact">
+            <a href="#contact"><span>Contacto</span></a>
+          </li>
         </ul>
       </nav>
 
@@ -1206,7 +1210,7 @@ export default function Home() {
       {/* Projects */}
       <section className="projects-section" id="project">
         {/* Full-screen gradient background */}
-        <div className="projects-full-bg" style={{ background: projects[activeProject].gradient }} />
+        <div className="projects-full-bg" style={{ backgroundImage: `url(${(projects[activeProject] as any).image})`, backgroundSize: 'contain', backgroundPosition: 'right center', backgroundRepeat: 'no-repeat', backgroundColor: '#05051a' }} />
         <div className="projects-full-overlay" />
 
         {/* Section label — top left */}
@@ -1248,7 +1252,7 @@ export default function Home() {
               className={`project-portrait-card${i === activeProject ? ' portrait-active' : ''}`}
               onClick={() => setActiveProject(i)}
             >
-              <div className="project-portrait-bg" style={{ background: p.gradient }} />
+              <div className="project-portrait-bg" style={{ backgroundImage: `url(${(p as any).image})`, backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
               <div className="project-portrait-overlay">
                 <span className="project-portrait-tag-sm">{p.tag.split(' · ')[0]}</span>
                 <p className="project-portrait-title-sm">{p.title}</p>
