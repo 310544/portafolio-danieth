@@ -17,62 +17,20 @@ const techIcons = [
   { label: "WhatsApp", angle: 332.3, color: "#25D366", svg: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>` },
 ];
 
-const projects = [
-  {
-    title: "Medencers",
-    tag: "Full Stack · Next.js",
-    desc: "Plataforma que conecta marcas con creadores de contenido validados. Búsqueda por nicho, métricas reales de engagement y negociación segura entre ambas partes.",
-    tech: ["Next.js", "TypeScript", "PostgreSQL"],
-    image: "/medencers.png",
-    github: "#",
-    demo: "https://www.medencers.com/",
-  },
-  {
-    title: "Vayric",
-    tag: "Frontend · Dashboard SaaS",
-    desc: "Dashboard para marcas que gestionan campañas con creadores: seguimiento de alcance y engagement en TikTok, Instagram, X y YouTube, analíticas en vivo y buscador de creadores asistido por IA.",
-    tech: ["React", "TypeScript", "Tailwind CSS"],
-    image: "/vayric.png",
-    github: "#",
-    demo: "https://vayric.com/",
-  },
-  {
-    title: "Avofy AI",
-    tag: "Full Stack · SaaS con IA",
-    desc: "Plataforma de seguimiento nutricional para nutricionistas y coaches. Los usuarios registran cada comida con una foto que la IA analiza, y el profesional ve macros, adherencia y alertas de riesgo en un solo panel.",
-    tech: ["React", "TypeScript", "Tailwind CSS"],
-    image: "/avofy.png",
-    github: "#",
-    demo: "https://macrofyai.com/es",
-  },
-  {
-    title: "Serviorinoquia SAS",
-    tag: "Frontend · Sitio corporativo",
-    desc: "Sitio para una empresa de transporte especial de pasajeros: servicios, flota y habilitaciones, con solicitud de cotización y contacto directo por WhatsApp.",
-    tech: ["HTML5", "CSS3", "JavaScript"],
-    image: "/transportadora.png",
-    github: "#",
-    demo: "https://tranportadora.vercel.app/",
-  },
-  {
-    title: "REST API E-Commerce",
-    tag: "Backend · Node.js",
-    desc: "API robusta para e-commerce con autenticación JWT, gestión de productos, carrito de compras e integración de pasarela de pagos.",
-    tech: ["Node.js", "TypeScript", "PostgreSQL"],
-    image: "/tienda-ecoshop.jpg",
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Dashboard Financiero",
-    tag: "Full Stack · Next.js",
-    desc: "Panel de control con gráficas en tiempo real, reportes exportables, autenticación por roles y gestión de usuarios.",
-    tech: ["Next.js", "React", "MongoDB"],
-    image: "/pixabay.jpg",
-    github: "#",
-    demo: "#",
-  },
+// Capturas para el muro que se desplaza. Cada fila arranca en un punto
+// distinto para que las tres no se vean iguales.
+const webs = [
+  "/medencers.png",
+  "/vayric.png",
+  "/arquitectura.webp",
+  "/avofy.png",
+  "/ropa.webp",
+  "/transportadora.png",
+  "/nova-energizante.webp",
 ];
+// cada fila arranca en un punto distinto para que las tres nunca coincidan
+const rotar = (n: number) => webs.slice(n).concat(webs.slice(0, n));
+const filasWebs = [rotar(0), rotar(3), rotar(5)];
 
 // Servicios flotando alrededor del mockup, cada uno en su posición
 const servicios = [
@@ -87,30 +45,6 @@ export default function Home() {
   const phoneRef = useRef<HTMLDivElement>(null);
   const FULL_TITLE = "DANIETH PUENTES";
 
-  // Entrada escalonada de las tarjetas de proyectos al hacer scroll
-  useEffect(() => {
-    const grid = document.querySelector<HTMLElement>(".projects-grid");
-    if (!grid || typeof IntersectionObserver === "undefined") return;
-    grid.classList.add("js-reveal");
-    const cards = grid.querySelectorAll<HTMLElement>(".project-card");
-    const io = new IntersectionObserver(
-      entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
-    );
-    cards.forEach(c => {
-      // red de seguridad: si ya esta en pantalla al montar, se muestra sin esperar al observer
-      if (c.getBoundingClientRect().top < window.innerHeight) c.classList.add("is-in");
-      else io.observe(c);
-    });
-    return () => io.disconnect();
-  }, []);
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
 
@@ -134,7 +68,7 @@ export default function Home() {
     <main
       style={{
         minHeight: "100vh",
-        background: "#05051a",
+        background: "#0E0E0E",
         fontFamily: "'Space Grotesk', sans-serif",
         overflow: "hidden",
         position: "relative",
@@ -146,7 +80,7 @@ export default function Home() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         /* Star field background */
-        body { background: #05051a; font-family: 'Space Grotesk', sans-serif; }
+        body { background: #0E0E0E; font-family: 'Space Grotesk', sans-serif; }
 
         /* Chat-like entrance animations */
         @keyframes chatFadeIn {
@@ -209,7 +143,7 @@ export default function Home() {
           align-items: center;
           justify-content: center;
           padding: 14px 50px;
-          background: rgba(5,5,26,0.88);
+          background: rgba(14,14,14,0.88);
           backdrop-filter: blur(20px);
           border-bottom: 1px solid rgba(139,92,246,0.15);
           box-shadow: 0 1px 30px rgba(0,0,0,0.4);
@@ -315,16 +249,6 @@ export default function Home() {
           transform: translateY(-2px);
         }
         .nav-links a:hover::before { opacity: 1; }
-        .nav-contact a {
-          background: linear-gradient(90deg, #7c3aed, #a855f7) !important;
-          border-color: transparent !important;
-          color: #fff !important;
-        }
-        .nav-contact a::before { opacity: 0 !important; }
-        .nav-contact a:hover {
-          box-shadow: 0 0 28px rgba(124,58,237,0.65), 0 4px 20px rgba(124,58,237,0.4) !important;
-          transform: translateY(-2px) scale(1.03) !important;
-        }
 
         /* Toggle pills */
         .toggle-pills {
@@ -388,7 +312,7 @@ export default function Home() {
           min-height: 1.1em;
         }
         .hero-title .highlight {
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
+          background: linear-gradient(135deg, #00E676 0%, #69FF47 45%, #00BFA5 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -410,18 +334,25 @@ export default function Home() {
         }
 
         /* Feature tags row */
+        /* misma burbuja esmerilada del subtítulo del muro */
         .feature-tags {
-          display: flex;
+          display: inline-flex;
+          align-items: center;
           gap: 20px;
           margin-bottom: 36px;
           flex-wrap: wrap;
+          background: rgba(255,255,255,0.07);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          padding: 13px 22px;
         }
         .feature-tag {
           display: flex;
           align-items: center;
           gap: 7px;
           font-size: 0.75rem;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.62);
           font-weight: 600;
         }
         /* Solo movil: los servicios que en escritorio flotan junto al mockup */
@@ -430,9 +361,10 @@ export default function Home() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: rgba(10,10,30,0.88);
-          border: 1px solid rgba(139,92,246,0.2);
-          border-radius: 999px;
+          background: rgba(255,255,255,0.07);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
           padding: 7px 13px;
           font-size: 0.68rem;
           font-weight: 600;
@@ -446,32 +378,6 @@ export default function Home() {
           opacity: 0.7;
         }
 
-        .hero-actions {
-          display: flex;
-          gap: 14px;
-          align-items: center;
-          margin-bottom: 40px;
-        }
-        .btn-primary {
-          background: linear-gradient(135deg, #7c3aed, #a855f7);
-          color: #fff;
-          border: none;
-          padding: 14px 30px;
-          border-radius: 50px;
-          font-size: 0.85rem;
-          font-weight: 700;
-          cursor: pointer;
-          letter-spacing: 0.5px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          transition: transform 0.2s, box-shadow 0.2s;
-          text-decoration: none;
-        }
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 30px rgba(139,92,246,0.4);
-        }
         .btn-outline {
           background: transparent;
           color: #fff;
@@ -773,10 +679,10 @@ export default function Home() {
         .phone-badge {
           position: absolute;
           z-index: 5;
-          background: rgba(10,10,30,0.88);
+          background: rgba(255,255,255,0.07);
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(139,92,246,0.2);
-          border-radius: 12px;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
           padding: 9px 14px;
           display: flex;
           align-items: center;
@@ -926,140 +832,140 @@ export default function Home() {
           }
         }
 
-        /* Projects section - grid */
-        .projects-section {
+        /* Muro de páginas en movimiento */
+        .webs-section {
           position: relative;
-          padding: 110px 60px 120px;
-          background:
-            radial-gradient(ellipse at 12% 0%, rgba(124,58,237,0.14) 0%, transparent 55%),
-            radial-gradient(ellipse at 88% 100%, rgba(236,72,153,0.08) 0%, transparent 50%),
-            #05051a;
+          z-index: 1;
+          overflow: hidden;
+          min-height: 560px;
+          padding: 100px 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #161616;
         }
-        .projects-section-label { margin-bottom: 46px; }
-        .projects-eyebrow {
-          font-size: 0.7rem; font-weight: 600; letter-spacing: 2px;
-          text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 10px;
+        .webs-bg {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+          /* la perspectiva es lo que da el efecto de caída */
+          perspective: 600px;
+          perspective-origin: 50% 50%;
         }
-        .projects-heading {
-          font-size: 2.5rem; font-weight: 800; color: #fff;
-          letter-spacing: -1.2px; line-height: 1.05;
+        .webs-stage {
+          position: absolute;
+          /* se desborda a propósito: al inclinarse no deben verse los bordes */
+          inset: -20% -40%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 10px;
+          transform: rotateX(20deg);
+          transform-style: preserve-3d;
         }
-        .projects-heading span {
-          background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
-          -webkit-background-clip: text; background-clip: text; color: transparent;
+        .webs-row {
+          display: flex;
+          width: max-content;
+          opacity: 0.5;
+          will-change: transform;
         }
-
-        .projects-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-          gap: 26px;
+        .webs-row-left  { animation: webs-left  46s linear infinite; }
+        .webs-row-right { animation: webs-right 46s linear infinite; }
+        /* La separación va como margin y no como gap: así cada tile mide
+           exactamente lo mismo y el -50% cae en un punto idéntico al inicio. */
+        .webs-tile {
+          width: 360px;
+          height: 240px;
+          margin-right: 10px;
+          flex-shrink: 0;
+          border-radius: 12px;
+          background-size: cover;
+          background-position: top center;
+          filter: saturate(0.65) brightness(0.6);
         }
-
-        .project-card {
-          position: relative; display: block; text-decoration: none;
-          border-radius: 18px; overflow: hidden;
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.07);
-          transition:
-            opacity 0.75s cubic-bezier(0.22,1,0.36,1),
-            transform 0.75s cubic-bezier(0.22,1,0.36,1),
-            border-color 0.4s ease,
-            box-shadow 0.4s ease;
+        @keyframes webs-left {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
         }
-        /* Solo se ocultan si el JS activo el reveal: sin JS quedan visibles */
-        .projects-grid.js-reveal .project-card { opacity: 0; transform: translateY(30px); }
-        .projects-grid.js-reveal .project-card.is-in { opacity: 1; transform: translateY(0); }
-        .project-card-link { cursor: pointer; }
-        .project-card-link:hover {
-          border-color: rgba(139,92,246,0.5);
-          box-shadow: 0 20px 50px rgba(124,58,237,0.28);
+        @keyframes webs-right {
+          from { transform: translateX(-50%); }
+          to   { transform: translateX(0); }
         }
-        .projects-grid.js-reveal .project-card-link.is-in:hover,
-        .project-card-link:hover { transform: translateY(-6px); }
-
-        .project-card-media {
-          position: relative; aspect-ratio: 16 / 10;
-          overflow: hidden; background: #0a0a24;
+        .webs-content {
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          max-width: 900px;
         }
-        .project-card-img {
-          position: absolute; inset: 0;
-          background-size: cover; background-position: center top;
-          filter: saturate(0.8) brightness(0.78);
-          transform: scale(1.01);
-          transition: transform 1.1s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease;
+        .webs-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 18px;
+          border-radius: 100px;
+          background: rgba(0,230,118,0.07);
+          border: 1px solid rgba(0,230,118,0.18);
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #00E676;
+          margin-bottom: 20px;
         }
-        .project-card:hover .project-card-img {
-          transform: scale(1.08);
-          filter: saturate(1) brightness(1);
+        .webs-eyebrow-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #00E676;
+          flex-shrink: 0;
+          animation: webs-dot 2s ease-in-out infinite;
         }
-        .project-card-shade {
-          position: absolute; inset: 0;
-          background: linear-gradient(180deg, rgba(5,5,26,0.15) 30%, rgba(5,5,26,0.92) 100%);
+        @keyframes webs-dot {
+          0%, 100% { opacity: 1;   transform: scale(1); }
+          50%      { opacity: 0.4; transform: scale(0.75); }
         }
-        .project-card-open {
-          position: absolute; top: 12px; right: 12px; z-index: 2;
-          padding: 6px 11px; border-radius: 999px;
-          font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px;
-          color: #fff; background: rgba(124,58,237,0.9);
-          border: 1px solid rgba(255,255,255,0.22);
-          backdrop-filter: blur(6px);
-          opacity: 0; transform: translateY(-8px);
-          transition: opacity 0.35s ease, transform 0.35s ease;
+        .webs-title {
+          font-size: 3.1rem;
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -1.5px;
+          color: #fff;
+          margin-bottom: 26px;
+          text-shadow: 0 4px 30px rgba(0,0,0,0.8);
         }
-        .project-card-link:hover .project-card-open { opacity: 1; transform: translateY(0); }
-
-        .project-card-body { position: relative; padding: 20px 22px 24px; }
-        .project-card-tag {
-          display: flex; align-items: center; gap: 9px;
-          font-size: 0.62rem; font-weight: 600; letter-spacing: 1.6px;
-          text-transform: uppercase; color: rgba(255,255,255,0.42); margin-bottom: 9px;
+        /* El verde va como degradado recortado sobre las letras */
+        .webs-title span {
+          background-image: linear-gradient(135deg, #00E676 0%, #69FF47 45%, #00BFA5 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          /* la sombra del titulo se vería a través de las letras huecas */
+          text-shadow: none;
         }
-        .project-card-tag::before {
-          content: ""; width: 20px; height: 1px;
-          background: linear-gradient(90deg, #a855f7, transparent);
-        }
-        .project-card-title {
-          font-size: 1.18rem; font-weight: 700; color: #fff;
-          letter-spacing: -0.4px; margin-bottom: 9px;
-        }
-        .project-card-desc {
-          font-size: 0.82rem; line-height: 1.65; color: rgba(255,255,255,0.45);
-          margin-bottom: 16px;
-          display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .project-card-tech { display: flex; gap: 7px; flex-wrap: wrap; }
-        .project-card-tech span {
-          font-size: 0.66rem; font-weight: 500; color: rgba(255,255,255,0.6);
-          padding: 4px 10px; border-radius: 999px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.08);
-        }
-        .project-card-cta {
-          display: flex; align-items: center; gap: 7px; margin-top: 16px;
-          font-size: 0.78rem; font-weight: 600; color: #a855f7;
-        }
-        .project-card-cta span {
+        .webs-sub {
           display: inline-block;
-          transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+          font-size: 0.92rem;
+          color: rgba(255,255,255,0.8);
+          background: rgba(255,255,255,0.07);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          padding: 14px 26px;
         }
-        .project-card-link:hover .project-card-cta span { transform: translateX(5px); }
-        .project-card-soon {
-          margin-top: 16px; font-size: 0.75rem; font-weight: 500;
-          color: rgba(255,255,255,0.28);
-        }
-
         @media (max-width: 900px) {
-          .projects-section { padding: 70px 24px 80px; }
-          .projects-heading { font-size: 1.9rem; }
-          .projects-grid { grid-template-columns: 1fr; gap: 20px; }
+          .webs-section { min-height: 440px; padding: 70px 20px; }
+          .webs-title { font-size: 2rem; letter-spacing: -1px; }
+          .webs-tile { width: 250px; height: 166px; }
+          .webs-sub { font-size: 0.82rem; padding: 12px 20px; }
+        }
+        @media (max-width: 600px) {
+          .webs-title { font-size: 1.6rem; }
+          .webs-tile { width: 200px; height: 133px; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .project-card, .project-card-img, .project-card-open, .project-card-cta span {
-            transition: none !important;
-          }
-          .projects-grid.js-reveal .project-card { opacity: 1; transform: none; }
+          .webs-row-left, .webs-row-right { animation: none; }
         }
-
 
         /* About section */
         .about-section {
@@ -1069,13 +975,6 @@ export default function Home() {
           max-width: 860px;
           margin: 0 auto;
           text-align: center;
-        }
-        .about-divider {
-          width: 50px;
-          height: 3px;
-          background: linear-gradient(90deg, #7c3aed, #a855f7, #ec4899);
-          margin: 0 auto 56px;
-          border-radius: 2px;
         }
         .about-title {
           font-size: 1.8rem;
@@ -1263,18 +1162,15 @@ export default function Home() {
       <div className="stars" />
 
       {/* Ambient glows */}
-      <div className="ambient-glow" style={{ background: "rgba(124,58,237,0.12)", width: "700px", height: "700px", top: "-200px", left: "-100px" }} />
-      <div className="ambient-glow" style={{ background: "rgba(168,85,247,0.08)", width: "500px", height: "500px", bottom: "-200px", right: "100px" }} />
-      <div className="ambient-glow" style={{ background: "rgba(236,72,153,0.05)", width: "400px", height: "400px", top: "30%", right: "30%" }} />
+      <div className="ambient-glow" style={{ background: "rgba(255,255,255,0.05)", width: "700px", height: "700px", top: "-200px", left: "-100px" }} />
+      <div className="ambient-glow" style={{ background: "rgba(255,255,255,0.035)", width: "500px", height: "500px", bottom: "-200px", right: "100px" }} />
+      <div className="ambient-glow" style={{ background: "rgba(255,255,255,0.025)", width: "400px", height: "400px", top: "30%", right: "30%" }} />
 
       {/* Navbar */}
       <nav className="navbar">
         <ul className="nav-links">
           <li>
             <a href="#project"><span>Proyectos</span></a>
-          </li>
-          <li className="nav-contact">
-            <a href="#contact"><span>Contacto</span></a>
           </li>
         </ul>
       </nav>
@@ -1327,10 +1223,6 @@ export default function Home() {
                 {s.label}
               </span>
             ))}
-          </div>
-
-          <div className="hero-actions chat-appear" style={{ animationDelay: '2.6s' }}>
-            <a href="#project" className="btn-primary">Ver Proyectos →</a>
           </div>
 
           <div className="social-links chat-appear" style={{ animationDelay: '2.8s' }}>
@@ -1440,49 +1332,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects */}
-      <section className="projects-section" id="project">
-        <div className="projects-section-label">
-          <p className="projects-eyebrow">Trabajos destacados</p>
-          <h2 className="projects-heading">Mis <span>Proyectos</span></h2>
+      {/* Muro de páginas que se desplaza */}
+      <section className="webs-section" id="project">
+        <div className="webs-bg">
+          <div className="webs-stage">
+            {filasWebs.map((fila, i) => (
+              <div
+                key={i}
+                className={`webs-row ${i === 1 ? "webs-row-right" : "webs-row-left"}`}
+              >
+                {/* duplicada: el bucle cierra sin costura al llegar al -50% */}
+                {[...fila, ...fila].map((src, j) => (
+                  <div
+                    key={j}
+                    className="webs-tile"
+                    style={{ backgroundImage: `url(${src})` }}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="projects-grid">
-          {projects.map((p, i) => {
-            const esLink = p.demo.startsWith("http");
-            return (
-              <a
-                key={p.title}
-                className={`project-card${esLink ? " project-card-link" : ""}`}
-                style={{ transitionDelay: `${i * 90}ms` }}
-                href={esLink ? p.demo : undefined}
-                target={esLink ? "_blank" : undefined}
-                rel={esLink ? "noopener noreferrer" : undefined}
-                title={esLink ? `Abrir ${p.title}` : p.title}
-              >
-                <div className="project-card-media">
-                  <div
-                    className="project-card-img"
-                    style={{ backgroundImage: `url(${p.image})` }}
-                  />
-                  <div className="project-card-shade" />
-                  {esLink && <span className="project-card-open">Visitar ↗</span>}
-                </div>
-
-                <div className="project-card-body">
-                  <p className="project-card-tag">{p.tag}</p>
-                  <h3 className="project-card-title">{p.title}</h3>
-                  <p className="project-card-desc">{p.desc}</p>
-                  <div className="project-card-tech">
-                    {p.tech.map(t => <span key={t}>{t}</span>)}
-                  </div>
-                  {esLink
-                    ? <p className="project-card-cta">Ver proyecto <span>→</span></p>
-                    : <p className="project-card-soon">Demo no disponible</p>}
-                </div>
-              </a>
-            );
-          })}
+        <div className="webs-content">
+          <p className="webs-eyebrow">
+            <span className="webs-eyebrow-dot" />
+            Desarrollo web
+          </p>
+          <h2 className="webs-title">
+            Páginas web que convierten <span>visitas en ventas</span>
+          </h2>
+          <p className="webs-sub">
+            Automatiza ventas, ordena el negocio y atiende
+            <br />
+            clientes 24/7
+          </p>
         </div>
       </section>
 
@@ -1495,7 +1379,6 @@ export default function Home() {
           width={547}
           height={456}
         />
-        <div className="about-divider" />
         <h2 className="about-title">Acerca de mí</h2>
         <p className="about-text">
           Soy desarrollador de software enfocado en el área Backend y frontend desarrollo web, con experiencia en la creación
